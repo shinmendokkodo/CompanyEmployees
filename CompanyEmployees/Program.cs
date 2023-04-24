@@ -3,10 +3,13 @@ using Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using NLog;
 using System.IO;
+using System.Linq;
 
 namespace CompanyEmployees;
 
@@ -44,6 +47,7 @@ public class Program
         {
             config.RespectBrowserAcceptHeader = true;
             config.ReturnHttpNotAcceptable = true;
+            config.InputFormatters.Insert(0, JsonPatchInputFormatter.GetJsonPatchInputFormatter());
         })
         .AddXmlDataContractSerializerFormatters()
         .AddCustomCSVFormatter()
