@@ -4,6 +4,7 @@ using Service.Contracts;
 using Shared.DataTransferObjects;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CompanyEmployees.Presentation.Controllers;
 
@@ -16,54 +17,55 @@ public class CompaniesController : ControllerBase
 	public CompaniesController(IServiceManager service) => this.serviceManager = service;
 
 	[HttpGet]
-	public IActionResult GetCompanies()
+	public async Task<IActionResult> GetCompaniesAsync()
 	{
-        var companies = serviceManager.CompanyService.GetAllCompanies(trackChanges: false);
+        var companies = await serviceManager.CompanyService.GetAllCompaniesAsync(trackChanges: false);
 		return Ok(companies);
 	}
 
-    [HttpGet("{companyId:guid}", Name = "CompanyById")] 
-	public IActionResult GetCompany(Guid companyId) 
+    [HttpGet("{companyId:guid}", Name = "CompanyById")]
+    public async Task<IActionResult> GetCompanyAsync(Guid companyId) 
 	{ 
-		var company = serviceManager.CompanyService.GetCompany(companyId, trackChanges: false); 
+		var company = await serviceManager.CompanyService.GetCompanyAsync(companyId, trackChanges: false); 
 		return Ok(company); 
 	}
 
-    [HttpPost] 
-	public IActionResult CreateCompany([FromBody] CompanyForCreationDto company) 
+    [HttpPost]
+    public async Task<IActionResult> CreateCompanyAsync([FromBody] CompanyForCreationDto company) 
 	{ 
-		if (company is null) 
-			return BadRequest("CompanyForCreationDto object is null"); 
-		var createdCompany = serviceManager.CompanyService.CreateCompany(company); 
+		if (company is null) return BadRequest("CompanyForCreationDto object is null");
+        if (!ModelState.IsValid) return UnprocessableEntity(ModelState);
+        var createdCompany = await serviceManager.CompanyService.CreateCompanyAsync(company); 
 		return CreatedAtRoute("CompanyById", new { companyId = createdCompany.Id }, createdCompany); 
 	}
 
     [HttpGet("collection/({companyIds})", Name = "CompanyCollection")]
-    public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> companyIds)
+    public async Task<IActionResult> CreateCompanyCollectionAsync([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> companyIds)
     { 
-		var companies = serviceManager.CompanyService.GetByIds(companyIds, trackChanges: false); 
+		var companies =	await serviceManager.CompanyService.GetByIdsAsync(companyIds, trackChanges: false); 
 		return Ok(companies); 
 	}
 
-    [HttpPost("collection")] 
-	public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection) 
+    [HttpPost("collection")]
+    public async Task<IActionResult> CreateCompanyCollectionAsync([FromBody] IEnumerable<CompanyForCreationDto> companyCollection) 
 	{ 
-		var (companies, companyIds) = serviceManager.CompanyService.CreateCompanyCollection(companyCollection); 
+		var (companies, companyIds) = await serviceManager.CompanyService.CreateCompanyCollectionAsync(companyCollection); 
 		return CreatedAtRoute("CompanyCollection", new { companyIds }, companies); 
 	}
 
     [HttpDelete("{companyId:guid}")]
-    public IActionResult DeleteCompany(Guid companyId)
+    public async Task<IActionResult> DeleteCompanyAsync(Guid companyId)
     {
-        serviceManager.CompanyService.DeleteCompany(companyId, trackChanges: false);
+        await serviceManager.CompanyService.DeleteCompanyAsync(companyId, trackChanges: false);
         return NoContent();
     }
 
     [HttpPut("{companyId:guid}")]
-    public IActionResult UpdateCompany(Guid companyId, [FromBody] CompanyForUpdateDto company)
+    public async Task<IActionResult> UpdateCompany(Guid companyId, [FromBody] CompanyForUpdateDto company)
     {
         if (company is null) return BadRequest("CompanyForUpdateDto object is null");
-        serviceManager.CompanyService.UpdateCompany(companyId, company, trackChanges: true);
+        if (!ModelState.IsValid) return UnprocessableEntity(ModelState);
+        await serviceManager.CompanyService.UpdateCompanyAsync(companyId, company, trackChanges: true);
         return NoContent();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Repository.Contracts;
 using System;
+using System.Threading.Tasks;
 
 namespace Repository;
 
@@ -18,5 +19,5 @@ public sealed class RepositoryManager : IRepositoryManager
    
     public ICompanyRepository CompanyRepository => companyRepository.Value; 
     public IEmployeeRepository EmployeeRepository => employeeRepository.Value; 
-    public void Save() => repositoryContext.SaveChanges();
+    public async Task SaveAsync() => await repositoryContext.SaveChangesAsync();
 }

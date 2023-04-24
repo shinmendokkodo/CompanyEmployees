@@ -1,8 +1,10 @@
-﻿namespace Repository.Contracts;
+﻿using System.Threading.Tasks;
+
+namespace Repository.Contracts;
 
 public interface IRepositoryManager
 {
     ICompanyRepository CompanyRepository { get; }
     IEmployeeRepository EmployeeRepository { get; }
-    void Save();
+    Task SaveAsync();
 }
