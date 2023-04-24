@@ -22,4 +22,6 @@ internal sealed class CompanyRepository : RepositoryBase<Company>, ICompanyRepos
 
     public IEnumerable<Company> GetByIds(IEnumerable<Guid> companyIds, bool trackChanges) => 
         FindByCondition(c => companyIds.Contains(c.Id), trackChanges).ToList();
+
+    public void DeleteCompany(Company company) => Delete(company);
 }

@@ -48,4 +48,15 @@ internal sealed class EmployeeService : IEmployeeService
         var employeeToReturn = mapper.Map<EmployeeDto>(employeeEntity); 
         return employeeToReturn; 
     }
+
+    public void DeleteEmployeeForCompany(Guid companyId, Guid employeeId, bool trackChanges)
+    {
+        var company = repository.Company.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
+        var employeeForCompany = repository.Employee.GetEmployee(company.Id, employeeId,
+        trackChanges);
+        if (employeeForCompany is null)
+            throw new EmployeeNotFoundException(employeeId);
+        repository.Employee.DeleteEmployee(employeeForCompany);
+        repository.Save();
+    }
 }

@@ -48,7 +48,14 @@ public class CompaniesController : ControllerBase
     [HttpPost("collection")] 
 	public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection) 
 	{ 
-		var result = service.CompanyService.CreateCompanyCollection(companyCollection); 
-		return CreatedAtRoute("CompanyCollection", new { result.companyIds }, result.companies); 
+		var (companies, companyIds) = service.CompanyService.CreateCompanyCollection(companyCollection); 
+		return CreatedAtRoute("CompanyCollection", new { companyIds }, companies); 
 	}
+
+    [HttpDelete("{id:guid}")]
+    public IActionResult DeleteCompany(Guid id)
+    {
+        service.CompanyService.DeleteCompany(id, trackChanges: false);
+        return NoContent();
+    }
 }

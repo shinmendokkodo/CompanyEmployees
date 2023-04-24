@@ -71,4 +71,11 @@ internal sealed class CompanyService : ICompanyService
         var companyIds = string.Join(",", companyCollectionToReturn.Select(c => c.Id)); 
         return (companies: companyCollectionToReturn, companyIds: companyIds); 
     }
+
+    public void DeleteCompany(Guid companyId, bool trackChanges)
+    {
+        var company = repository.Company.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
+        repository.Company.DeleteCompany(company);
+        repository.Save();
+    }
 }

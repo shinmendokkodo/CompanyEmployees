@@ -26,4 +26,6 @@ internal sealed class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRe
         employee.CompanyId = companyId; 
         Create(employee); 
     }
+
+    public void DeleteEmployee(Employee employee) => Delete(employee);
 }
