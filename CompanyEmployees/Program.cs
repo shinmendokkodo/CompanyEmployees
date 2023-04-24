@@ -36,7 +36,11 @@ public class Program
         // Configure DB Context
         builder.Services.ConfigureSqlContext(builder.Configuration);
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers()
+            .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+        
+        // AutoMapper
+        builder.Services.AddAutoMapper(typeof(Program));
 
         var app = builder.Build();
 
