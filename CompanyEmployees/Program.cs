@@ -2,6 +2,7 @@ using CompanyEmployees.Extensions;
 using Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
@@ -36,6 +37,8 @@ public class Program
 
         // Configure DB Context
         builder.Services.ConfigureSqlContext(builder.Configuration);
+
+        builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
 
         builder.Services.AddControllers(config =>
         {
