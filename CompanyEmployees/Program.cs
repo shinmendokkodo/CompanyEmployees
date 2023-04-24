@@ -37,8 +37,14 @@ public class Program
         // Configure DB Context
         builder.Services.ConfigureSqlContext(builder.Configuration);
 
-        builder.Services.AddControllers()
-            .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
+        builder.Services.AddControllers(config =>
+        {
+            config.RespectBrowserAcceptHeader = true;
+            config.ReturnHttpNotAcceptable = true;
+        })
+        .AddXmlDataContractSerializerFormatters()
+        .AddCustomCSVFormatter()
+        .AddApplicationPart(typeof(Presentation.AssemblyReference).Assembly);
         
         // AutoMapper
         builder.Services.AddAutoMapper(typeof(Program));

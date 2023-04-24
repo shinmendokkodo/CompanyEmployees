@@ -26,7 +26,6 @@ internal sealed class CompanyService : ICompanyService
 
     public IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges) 
     {
-        throw new Exception();
         var companies = repository.Company.GetAllCompanies(trackChanges);
         var companiesDto = mapper.Map<IEnumerable<CompanyDto>>(companies);
         return companiesDto;        
