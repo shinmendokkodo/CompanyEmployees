@@ -52,10 +52,7 @@ internal sealed class EmployeeService : IEmployeeService
     public void DeleteEmployeeForCompany(Guid companyId, Guid employeeId, bool trackChanges)
     {
         var company = repository.Company.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
-        var employeeForCompany = repository.Employee.GetEmployee(company.Id, employeeId,
-        trackChanges);
-        if (employeeForCompany is null)
-            throw new EmployeeNotFoundException(employeeId);
+        var employeeForCompany = repository.Employee.GetEmployee(company.Id, employeeId, trackChanges) ?? throw new EmployeeNotFoundException(employeeId);
         repository.Employee.DeleteEmployee(employeeForCompany);
         repository.Save();
     }
