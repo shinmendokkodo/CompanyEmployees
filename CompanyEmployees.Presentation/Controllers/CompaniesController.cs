@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using System;
 
 namespace CompanyEmployees.Presentation.Controllers;
 
@@ -14,14 +15,7 @@ public class CompaniesController : ControllerBase
 	[HttpGet]
 	public IActionResult GetCompanies()
 	{
-		try
-		{
-			var companies = service.CompanyService.GetAllCompanies(trackChanges: false);
-			return Ok(companies);
-		}
-		catch
-		{
-			return StatusCode(500, "Internal server error");
-		}
+        var companies = service.CompanyService.GetAllCompanies(trackChanges: false);
+		return Ok(companies);
 	}
 }
