@@ -81,9 +81,7 @@ internal sealed class CompanyService : ICompanyService
 
     public void UpdateCompany(Guid companyId, CompanyForUpdateDto companyForUpdate, bool trackChanges)
     {
-        var companyEntity = repositoryManager.CompanyRepository.GetCompany(companyId, trackChanges);
-        if (companyEntity is null)
-            throw new CompanyNotFoundException(companyId);
+        var companyEntity = repositoryManager.CompanyRepository.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
         mapper.Map(companyForUpdate, companyEntity);
         repositoryManager.Save();
     }
