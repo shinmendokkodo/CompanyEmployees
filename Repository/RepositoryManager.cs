@@ -16,7 +16,7 @@ public sealed class RepositoryManager : IRepositoryManager
         employeeRepository = new Lazy<IEmployeeRepository>(() => new EmployeeRepository(repositoryContext)); 
     }
    
-    public ICompanyRepository Company => companyRepository.Value; 
-    public IEmployeeRepository Employee => employeeRepository.Value; 
+    public ICompanyRepository CompanyRepository => companyRepository.Value; 
+    public IEmployeeRepository EmployeeRepository => employeeRepository.Value; 
     public void Save() => repositoryContext.SaveChanges();
 }

@@ -25,25 +25,25 @@ internal sealed class EmployeeService : IEmployeeService
 
     public IEnumerable<EmployeeDto> GetEmployees(Guid companyId, bool trackChanges)
     {
-        var company = repository.Company.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
-        var employeesFromDb = repository.Employee.GetEmployees(company.Id, trackChanges); 
+        var company = repository.CompanyRepository.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
+        var employeesFromDb = repository.EmployeeRepository.GetEmployees(company.Id, trackChanges); 
         var employeesDto = mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb); 
         return employeesDto;
     }
 
     public EmployeeDto GetEmployee(Guid companyId, Guid employeeId, bool trackChanges) 
     { 
-        var company = repository.Company.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
-        var employeeDb = repository.Employee.GetEmployee(company.Id, employeeId, trackChanges) ?? throw new EmployeeNotFoundException(employeeId);
+        var company = repository.CompanyRepository.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
+        var employeeDb = repository.EmployeeRepository.GetEmployee(company.Id, employeeId, trackChanges) ?? throw new EmployeeNotFoundException(employeeId);
         var employee = mapper.Map<EmployeeDto>(employeeDb); 
         return employee; 
     }
 
     public EmployeeDto CreateEmployeeForCompany(Guid companyId, EmployeeForCreationDto employeeForCreation, bool trackChanges) 
     { 
-        var company = repository.Company.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
+        var company = repository.CompanyRepository.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
         var employeeEntity = mapper.Map<Employee>(employeeForCreation); 
-        repository.Employee.CreateEmployeeForCompany(company.Id, employeeEntity); 
+        repository.EmployeeRepository.CreateEmployeeForCompany(company.Id, employeeEntity); 
         repository.Save(); 
         var employeeToReturn = mapper.Map<EmployeeDto>(employeeEntity); 
         return employeeToReturn; 
@@ -51,9 +51,17 @@ internal sealed class EmployeeService : IEmployeeService
 
     public void DeleteEmployeeForCompany(Guid companyId, Guid employeeId, bool trackChanges)
     {
-        var company = repository.Company.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
-        var employeeForCompany = repository.Employee.GetEmployee(company.Id, employeeId, trackChanges) ?? throw new EmployeeNotFoundException(employeeId);
-        repository.Employee.DeleteEmployee(employeeForCompany);
+        var company = repository.CompanyRepository.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
+        var employeeForCompany = repository.EmployeeRepository.GetEmployee(company.Id, employeeId, trackChanges) ?? throw new EmployeeNotFoundException(employeeId);
+        repository.EmployeeRepository.DeleteEmployee(employeeForCompany);
+        repository.Save();
+    }
+
+    public void UpdateEmployeeForCompany(Guid companyId, Guid employeeId, EmployeeForUpdateDto employeeForUpdate, bool compTrackChanges, bool empTrackChanges)
+    {
+        var company = repository.CompanyRepository.GetCompany(companyId, compTrackChanges) ?? throw new CompanyNotFoundException(companyId);
+        var employeeEntity = repository.EmployeeRepository.GetEmployee(company.Id, employeeId, empTrackChanges) ?? throw new EmployeeNotFoundException(employeeId);
+        mapper.Map(employeeForUpdate, employeeEntity);
         repository.Save();
     }
 }

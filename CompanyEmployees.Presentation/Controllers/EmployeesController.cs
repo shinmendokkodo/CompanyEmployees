@@ -9,21 +9,21 @@ namespace CompanyEmployees.Presentation.Controllers;
 [ApiController]
 public class EmployeesController : ControllerBase
 {
-	private readonly IServiceManager service;
+	private readonly IServiceManager serviceManager;
 
-	public EmployeesController(IServiceManager service) => this.service = service;
+	public EmployeesController(IServiceManager serviceManager) => this.serviceManager = serviceManager;
 
 	[HttpGet]
 	public IActionResult GetEmployeesForCompany(Guid companyId)
 	{
-		var employees = service.EmployeeService.GetEmployees(companyId, trackChanges: false);
+		var employees = serviceManager.EmployeeService.GetEmployees(companyId, trackChanges: false);
 		return Ok(employees);
 	}
 
 	[HttpGet("{employeeId:guid}", Name = "GetEmployeeForCompany")]
 	public IActionResult GetEmployeeForCompany(Guid companyId, Guid employeeId)
 	{
-		var employee = service.EmployeeService.GetEmployee(companyId, employeeId, trackChanges: false);
+		var employee = serviceManager.EmployeeService.GetEmployee(companyId, employeeId, trackChanges: false);
 		return Ok(employee);
 	}
 
@@ -32,14 +32,22 @@ public class EmployeesController : ControllerBase
 	{ 
 		if (employee is null) 
 			return BadRequest("EmployeeForCreationDto object is null"); 
-		var employeeToReturn = service.EmployeeService.CreateEmployeeForCompany(companyId, employee, trackChanges: false); 
+		var employeeToReturn = serviceManager.EmployeeService.CreateEmployeeForCompany(companyId, employee, trackChanges: false); 
 		return CreatedAtRoute("GetEmployeeForCompany", new { companyId, employeeId = employeeToReturn.Id }, employeeToReturn); 
 	}
 
     [HttpDelete("{employeeId:guid}")]
     public IActionResult DeleteEmployeeForCompany(Guid companyId, Guid employeeId)
     {
-        service.EmployeeService.DeleteEmployeeForCompany(companyId, employeeId, trackChanges: false);
+        serviceManager.EmployeeService.DeleteEmployeeForCompany(companyId, employeeId, trackChanges: false);
+        return NoContent();
+    }
+
+    [HttpPut("{employeeId:guid}")]
+    public IActionResult UpdateEmployeeForCompany(Guid companyId, Guid employeeId, [FromBody] EmployeeForUpdateDto employee)
+    {
+        if (employee is null) return BadRequest("EmployeeForUpdateDto object is null");
+        serviceManager.EmployeeService.UpdateEmployeeForCompany(companyId, employeeId, employee, compTrackChanges: false, empTrackChanges: true);
         return NoContent();
     }
 }

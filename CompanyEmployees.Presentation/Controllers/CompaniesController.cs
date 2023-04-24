@@ -11,21 +11,21 @@ namespace CompanyEmployees.Presentation.Controllers;
 [ApiController]
 public class CompaniesController : ControllerBase
 {
-	private readonly IServiceManager service;
+	private readonly IServiceManager serviceManager;
 
-	public CompaniesController(IServiceManager service) => this.service = service;
+	public CompaniesController(IServiceManager service) => this.serviceManager = service;
 
 	[HttpGet]
 	public IActionResult GetCompanies()
 	{
-        var companies = service.CompanyService.GetAllCompanies(trackChanges: false);
+        var companies = serviceManager.CompanyService.GetAllCompanies(trackChanges: false);
 		return Ok(companies);
 	}
 
     [HttpGet("{companyId:guid}", Name = "CompanyById")] 
 	public IActionResult GetCompany(Guid companyId) 
 	{ 
-		var company = service.CompanyService.GetCompany(companyId, trackChanges: false); 
+		var company = serviceManager.CompanyService.GetCompany(companyId, trackChanges: false); 
 		return Ok(company); 
 	}
 
@@ -34,28 +34,36 @@ public class CompaniesController : ControllerBase
 	{ 
 		if (company is null) 
 			return BadRequest("CompanyForCreationDto object is null"); 
-		var createdCompany = service.CompanyService.CreateCompany(company); 
+		var createdCompany = serviceManager.CompanyService.CreateCompany(company); 
 		return CreatedAtRoute("CompanyById", new { companyId = createdCompany.Id }, createdCompany); 
 	}
 
     [HttpGet("collection/({companyIds})", Name = "CompanyCollection")]
     public IActionResult GetCompanyCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> companyIds)
     { 
-		var companies = service.CompanyService.GetByIds(companyIds, trackChanges: false); 
+		var companies = serviceManager.CompanyService.GetByIds(companyIds, trackChanges: false); 
 		return Ok(companies); 
 	}
 
     [HttpPost("collection")] 
 	public IActionResult CreateCompanyCollection([FromBody] IEnumerable<CompanyForCreationDto> companyCollection) 
 	{ 
-		var (companies, companyIds) = service.CompanyService.CreateCompanyCollection(companyCollection); 
+		var (companies, companyIds) = serviceManager.CompanyService.CreateCompanyCollection(companyCollection); 
 		return CreatedAtRoute("CompanyCollection", new { companyIds }, companies); 
 	}
 
-    [HttpDelete("{id:guid}")]
-    public IActionResult DeleteCompany(Guid id)
+    [HttpDelete("{companyId:guid}")]
+    public IActionResult DeleteCompany(Guid companyId)
     {
-        service.CompanyService.DeleteCompany(id, trackChanges: false);
+        serviceManager.CompanyService.DeleteCompany(companyId, trackChanges: false);
+        return NoContent();
+    }
+
+    [HttpPut("{companyId:guid}")]
+    public IActionResult UpdateCompany(Guid companyId, [FromBody] CompanyForUpdateDto company)
+    {
+        if (company is null) return BadRequest("CompanyForUpdateDto object is null");
+        serviceManager.CompanyService.UpdateCompany(companyId, company, trackChanges: true);
         return NoContent();
     }
 }
