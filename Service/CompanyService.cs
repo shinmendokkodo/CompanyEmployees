@@ -7,6 +7,7 @@ using System;
 using Shared.DataTransferObjects;
 using System.Linq;
 using AutoMapper;
+using Entities.Exceptions;
 
 namespace Service;
 
@@ -24,9 +25,17 @@ internal sealed class CompanyService : ICompanyService
     }
 
     public IEnumerable<CompanyDto> GetAllCompanies(bool trackChanges) 
-    { 
+    {
+        throw new Exception();
         var companies = repository.Company.GetAllCompanies(trackChanges);
         var companiesDto = mapper.Map<IEnumerable<CompanyDto>>(companies);
         return companiesDto;        
+    }
+
+    public CompanyDto GetCompany(Guid companyId, bool trackChanges)
+    {
+        var company = repository.Company.GetCompany(companyId, trackChanges) ?? throw new CompanyNotFoundException(companyId);
+        var companyDto = mapper.Map<CompanyDto>(company); 
+        return companyDto; 
     }
 }
