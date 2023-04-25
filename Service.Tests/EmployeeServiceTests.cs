@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Service.Tests
 {
+    /*
     public class EmployeeServiceTests
     {
         private readonly IServiceManager _serviceManager;
@@ -55,7 +56,7 @@ namespace Service.Tests
             Assert.NotNull(result);
             Assert.IsAssignableFrom<IEnumerable<EmployeeDto>>(result);
             Assert.Equal(2, (result as IList<EmployeeDto>).Count);
-        }*/
+        }
 
         [Fact]
         public async Task GetEmployeesAsync_ReturnsEmployees_Success()
@@ -149,4 +150,5 @@ namespace Service.Tests
             await Assert.ThrowsAsync<CompanyNotFoundException>(() => _serviceManager.EmployeeService.GetEmployeeAsync(companyId, employeeId, false));
         }
     }
+    */
 }

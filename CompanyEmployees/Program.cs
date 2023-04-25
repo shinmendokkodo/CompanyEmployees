@@ -1,11 +1,11 @@
 using CompanyEmployees.Extensions;
+using CompanyEmployees.Presentation.ActionFilters;
 using Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using NLog;
 using System.IO;
 
@@ -40,6 +40,8 @@ public class Program
         builder.Services.ConfigureSqlContext(builder.Configuration);
 
         builder.Services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
+
+        builder.Services.AddScoped<ValidationFilterAttribute>();
 
         builder.Services.AddControllers(config =>
         {

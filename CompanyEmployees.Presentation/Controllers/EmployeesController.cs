@@ -1,8 +1,13 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using CompanyEmployees.Presentation.ActionFilters;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Service.Contracts;
 using Shared.DataTransferObjects;
+using Shared.RequestFeatures;
 using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace CompanyEmployees.Presentation.Controllers;
@@ -16,10 +21,12 @@ public class EmployeesController : ControllerBase
 	public EmployeesController(IServiceManager serviceManager) => this.serviceManager = serviceManager;
 
 	[HttpGet]
-    public async Task<IActionResult> GetEmployeesForCompany(Guid companyId)
+    public async Task<IActionResult> GetEmployeesForCompanyAsync(Guid companyId, [FromQuery] EmployeeParameters employeeParameters)
 	{
-		var employees = await serviceManager.EmployeeService.GetEmployeesAsync(companyId, trackChanges: false);
-		
+        var (employees, metaData) = await serviceManager.EmployeeService.GetEmployeesAsync(companyId, employeeParameters, trackChanges: false);
+
+        Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(metaData));
+
         return Ok(employees);
 	}
 
@@ -32,18 +39,9 @@ public class EmployeesController : ControllerBase
 	}
 
     [HttpPost]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateEmployeeForCompanyAsync(Guid companyId, [FromBody] EmployeeForCreationDto employee) 
 	{
-        if (employee is null)
-        {
-            return BadRequest("EmployeeForCreationDto object is null");
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return UnprocessableEntity(ModelState);
-        }
-
         var employeeToReturn = await serviceManager.EmployeeService.CreateEmployeeForCompanyAsync(companyId, employee, trackChanges: false); 
 
 		return CreatedAtRoute("GetEmployeeForCompany", new { companyId, employeeId = employeeToReturn.Id }, employeeToReturn); 
@@ -58,13 +56,9 @@ public class EmployeesController : ControllerBase
     }
 
     [HttpPut("{employeeId:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateEmployeeForCompanyAsync(Guid companyId, Guid employeeId, [FromBody] EmployeeForUpdateDto employee)
-    {
-        if (employee is null)
-        {
-            return BadRequest("EmployeeForUpdateDto object is null");
-        }
-        
+    {       
         await serviceManager.EmployeeService.UpdateEmployeeForCompanyAsync(companyId, employeeId, employee, compTrackChanges: false, empTrackChanges: true);
         
         return NoContent();
