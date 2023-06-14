@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Linq;
 
-namespace CompanyEmployees;
+namespace CompanyEmployees.Formatters.Input;
 
 /// <summary>
 /// The JsonPatchInputFormatter class is a utility class that provides a method to obtain an instance of NewtonsoftJsonPatchInputFormatter.

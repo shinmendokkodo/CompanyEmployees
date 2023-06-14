@@ -30,39 +30,38 @@ internal sealed class CompanyService : BaseService, ICompanyService
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<CompanyDto>> GetAllCompaniesAsync(bool trackChanges) 
+    public async Task<IEnumerable<CompanyDto>> GetAllCompaniesAsync(bool trackChanges)
     {
         var companies = await repositoryManager.CompanyRepository.GetAllCompaniesAsync(trackChanges);
 
         var companiesDto = mapper.Map<IEnumerable<CompanyDto>>(companies);
-
-        return companiesDto;        
+        return companiesDto;
     }
 
     /// <inheritdoc/>
     public async Task<CompanyDto> GetCompanyAsync(Guid companyId, bool trackChanges)
     {
         var company = await GetCompanyAndCheckIfItExistsAsync(companyId, trackChanges);
-        
-        var companyDto = mapper.Map<CompanyDto>(company); 
-        return companyDto; 
+
+        var companyDto = mapper.Map<CompanyDto>(company);
+        return companyDto;
     }
 
     /// <inheritdoc/>
-    public async Task<CompanyDto> CreateCompanyAsync(CompanyForCreationDto company) 
-    { 
-        var companyEntity = mapper.Map<Company>(company); 
-        
-        repositoryManager.CompanyRepository.CreateCompany(companyEntity); 
-       
-        await repositoryManager.SaveAsync(); 
-        
-        var companyToReturn = mapper.Map<CompanyDto>(companyEntity); 
-        return companyToReturn; 
+    public async Task<CompanyDto> CreateCompanyAsync(CompanyForCreationDto company)
+    {
+        var companyEntity = mapper.Map<Company>(company);
+
+        repositoryManager.CompanyRepository.CreateCompany(companyEntity);
+
+        await repositoryManager.SaveAsync();
+
+        var companyToReturn = mapper.Map<CompanyDto>(companyEntity);
+        return companyToReturn;
     }
 
     /// <inheritdoc/>
-    public async Task<IEnumerable<CompanyDto>> GetByIdsAsync(IEnumerable<Guid> companyIds, bool trackChanges) 
+    public async Task<IEnumerable<CompanyDto>> GetByIdsAsync(IEnumerable<Guid> companyIds, bool trackChanges)
     {
         if (companyIds is null)
         {
@@ -76,18 +75,18 @@ internal sealed class CompanyService : BaseService, ICompanyService
             throw new CollectionByIdsBadRequestException();
         }
 
-        var companiesToReturn = mapper.Map<IEnumerable<CompanyDto>>(companyEntities);    
+        var companiesToReturn = mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
         return companiesToReturn;
     }
 
     /// <inheritdoc/>
-    public async Task<(IEnumerable<CompanyDto> companies, string companyIds)> CreateCompanyCollectionAsync(IEnumerable<CompanyForCreationDto> companyCollection) 
+    public async Task<(IEnumerable<CompanyDto> companies, string companyIds)> CreateCompanyCollectionAsync(IEnumerable<CompanyForCreationDto> companyCollection)
     {
         if (companyCollection is null)
         {
             throw new CompanyCollectionBadRequest();
         }
-        
+
         var companyEntities = mapper.Map<IEnumerable<Company>>(companyCollection);
         foreach (var company in companyEntities)
         {
@@ -96,9 +95,9 @@ internal sealed class CompanyService : BaseService, ICompanyService
 
         await repositoryManager.SaveAsync();
         var companyCollectionToReturn = mapper.Map<IEnumerable<CompanyDto>>(companyEntities);
-        
+
         var companyIds = string.Join(",", companyCollectionToReturn.Select(c => c.Id));
-        return (companies: companyCollectionToReturn, companyIds: companyIds);
+        return (companies: companyCollectionToReturn, companyIds);
     }
 
     /// <inheritdoc/>
@@ -114,7 +113,7 @@ internal sealed class CompanyService : BaseService, ICompanyService
     public async Task UpdateCompanyAsync(Guid companyId, CompanyForUpdateDto companyForUpdate, bool trackChanges)
     {
         var companyEntity = await GetCompanyAndCheckIfItExistsAsync(companyId, trackChanges);
-        
+
         mapper.Map(companyForUpdate, companyEntity);
         await repositoryManager.SaveAsync();
     }

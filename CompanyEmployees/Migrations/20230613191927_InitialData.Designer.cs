@@ -12,7 +12,7 @@ using Repository;
 namespace CompanyEmployees.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20230424081441_InitialData")]
+    [Migration("20230613191927_InitialData")]
     partial class InitialData
     {
         /// <inheritdoc />
@@ -55,14 +55,35 @@ namespace CompanyEmployees.Migrations
                             Id = new Guid("c9d4c053-49b6-410c-bc78-2d54a9991870"),
                             Address = "583 Wall Dr. Gwynn Oak, MD 21207",
                             Country = "USA",
-                            Name = "IT_Solutions Ltd"
+                            Name = "IT Solutions Ltd"
                         },
                         new
                         {
                             Id = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
                             Address = "312 Forest Avenue, BF 923",
                             Country = "USA",
-                            Name = "Admin_Solutions Ltd"
+                            Name = "Admin Solutions Ltd"
+                        },
+                        new
+                        {
+                            Id = new Guid("f91d276d-2488-4e68-bf2f-85996f029daf"),
+                            Address = "987 Maple Drive, Los Angeles, CA 90210",
+                            Country = "USA",
+                            Name = "Vector Digital Corp"
+                        },
+                        new
+                        {
+                            Id = new Guid("7e9f0f5c-58ef-4a77-913f-3e408054e1bb"),
+                            Address = "45 Ocean Street, Sydney, NSW 2000",
+                            Country = "Australia",
+                            Name = "Oceanic Software Ltd"
+                        },
+                        new
+                        {
+                            Id = new Guid("eb23df43-47b3-4675-9b84-2788574e2e95"),
+                            Address = "Suite 1, 1 Baker Street, London, W1U 6WG",
+                            Country = "UK",
+                            Name = "CloudNet Technologies"
                         });
                 });
 
@@ -86,8 +107,8 @@ namespace CompanyEmployees.Migrations
 
                     b.Property<string>("Position")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -119,6 +140,46 @@ namespace CompanyEmployees.Migrations
                             CompanyId = new Guid("3d490a70-94ce-4d15-9494-5248280c2ce3"),
                             Name = "Kane Miller",
                             Position = "Administrator"
+                        },
+                        new
+                        {
+                            Id = new Guid("aee7b7f5-345c-4a46-8aec-0c6c9a6f9b1b"),
+                            Age = 32,
+                            CompanyId = new Guid("f91d276d-2488-4e68-bf2f-85996f029daf"),
+                            Name = "Adam Scott",
+                            Position = "Software Developer"
+                        },
+                        new
+                        {
+                            Id = new Guid("a5a65b91-b3e6-4f78-a40c-6b72a5a1f827"),
+                            Age = 29,
+                            CompanyId = new Guid("7e9f0f5c-58ef-4a77-913f-3e408054e1bb"),
+                            Name = "Emily Parker",
+                            Position = "UI/UX Designer"
+                        },
+                        new
+                        {
+                            Id = new Guid("3c4cd4f9-913f-41e1-a9dd-5c8f8b2b6c2a"),
+                            Age = 35,
+                            CompanyId = new Guid("eb23df43-47b3-4675-9b84-2788574e2e95"),
+                            Name = "Oliver Brown",
+                            Position = "System Analyst"
+                        },
+                        new
+                        {
+                            Id = new Guid("cb4b5c89-35f1-4bb6-b810-66a6f2c6b2db"),
+                            Age = 27,
+                            CompanyId = new Guid("f91d276d-2488-4e68-bf2f-85996f029daf"),
+                            Name = "Sophia Davis",
+                            Position = "Data Analyst"
+                        },
+                        new
+                        {
+                            Id = new Guid("f0e2058c-8745-4a3a-9fdc-058a4f55a802"),
+                            Age = 33,
+                            CompanyId = new Guid("7e9f0f5c-58ef-4a77-913f-3e408054e1bb"),
+                            Name = "Liam Smith",
+                            Position = "IT Support Specialist"
                         });
                 });
 

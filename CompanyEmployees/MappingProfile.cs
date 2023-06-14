@@ -16,8 +16,8 @@ public class MappingProfile : Profile
     {
         // Map Company to CompanyDto, and create FullAddress from Address and Country properties.
         CreateMap<Company, CompanyDto>()
-            .ForMember(c => c.FullAddress,
-                opt => opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
+            .ForMember(companyDto => companyDto.FullAddress,
+                opt => opt.MapFrom(company => string.Join(' ', company.Address, company.Country)));
 
         // Map Employee to EmployeeDto.
         CreateMap<Employee, EmployeeDto>();

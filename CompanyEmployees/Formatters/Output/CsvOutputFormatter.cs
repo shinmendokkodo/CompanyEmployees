@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CompanyEmployees;
+namespace CompanyEmployees.Formatters.Output;
 
 /// <summary>
 /// CsvOutputFormatter is a custom output formatter for converting CompanyDto objects to CSV format.

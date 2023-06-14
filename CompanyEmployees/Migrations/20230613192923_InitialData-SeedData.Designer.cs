@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace CompanyEmployees.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20230613192923_InitialData-SeedData")]
+    partial class InitialDataSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -468,166 +471,6 @@ namespace CompanyEmployees.Migrations
                             CompanyId = new Guid("7304a687-8970-4a37-b3e7-0bf74a5b6456"),
                             Name = "Emily Clarke",
                             Position = "Project Manager"
-                        },
-                        new
-                        {
-                            Id = new Guid("5b5ffbef-e367-4294-b847-3e3b7a8e84e8"),
-                            Age = 35,
-                            CompanyId = new Guid("7304a687-8970-4a37-b3e7-0bf74a5b6456"),
-                            Name = "Ian Freeman",
-                            Position = "Data Analyst"
-                        },
-                        new
-                        {
-                            Id = new Guid("12fa66df-1dd2-4112-93cd-c31014a0b777"),
-                            Age = 28,
-                            CompanyId = new Guid("ba56711f-692a-4ed6-9451-b3f229f9f468"),
-                            Name = "Amelia Davis",
-                            Position = "Software Developer"
-                        },
-                        new
-                        {
-                            Id = new Guid("93547f13-d909-4ca9-9696-22dcbc9b0ee9"),
-                            Age = 31,
-                            CompanyId = new Guid("e1bce704-7cbb-4b10-beda-d97e9aef9147"),
-                            Name = "Noah Patterson",
-                            Position = "IT Consultant"
-                        },
-                        new
-                        {
-                            Id = new Guid("87cb4988-a5d2-4b36-b5d3-71184f6e3f75"),
-                            Age = 26,
-                            CompanyId = new Guid("d69a6a59-a7e8-4c8f-b802-95d2b4b58ac7"),
-                            Name = "Liam Johnson",
-                            Position = "Network Administrator"
-                        },
-                        new
-                        {
-                            Id = new Guid("0baee42d-cb8f-4d67-8a82-c91335d479b8"),
-                            Age = 30,
-                            CompanyId = new Guid("d69a6a59-a7e8-4c8f-b802-95d2b4b58ac7"),
-                            Name = "Oliver Smith",
-                            Position = "Web Developer"
-                        },
-                        new
-                        {
-                            Id = new Guid("ad24c897-1cde-4b0b-828d-b15c4a07a24d"),
-                            Age = 28,
-                            CompanyId = new Guid("d69a6a59-a7e8-4c8f-b802-95d2b4b58ac7"),
-                            Name = "George Johnson",
-                            Position = "Data Analyst"
-                        },
-                        new
-                        {
-                            Id = new Guid("20b3f781-88e0-42c5-b678-e8b3a625f22d"),
-                            Age = 26,
-                            CompanyId = new Guid("ba56711f-692a-4ed6-9451-b3f229f9f468"),
-                            Name = "Harry Williams",
-                            Position = "Software Engineer"
-                        },
-                        new
-                        {
-                            Id = new Guid("c72e7e23-2761-42cf-8962-896ada4425c1"),
-                            Age = 32,
-                            CompanyId = new Guid("ba56711f-692a-4ed6-9451-b3f229f9f468"),
-                            Name = "Jack Jones",
-                            Position = "Systems Administrator"
-                        },
-                        new
-                        {
-                            Id = new Guid("ce14b1d1-8133-4279-a407-6bda3a3a8b92"),
-                            Age = 25,
-                            CompanyId = new Guid("f9a92769-354f-4d23-85b2-16f6af0b84a1"),
-                            Name = "Charlie Brown",
-                            Position = "Database Administrator"
-                        },
-                        new
-                        {
-                            Id = new Guid("e09b94d2-d5dd-4f80-90d7-35353c49a07f"),
-                            Age = 34,
-                            CompanyId = new Guid("f9a92769-354f-4d23-85b2-16f6af0b84a1"),
-                            Name = "Thomas Davies",
-                            Position = "QA Engineer"
-                        },
-                        new
-                        {
-                            Id = new Guid("66f9f41a-0d7f-4df3-9b9a-c7533b57c742"),
-                            Age = 33,
-                            CompanyId = new Guid("7304a687-8970-4a37-b3e7-0bf74a5b6456"),
-                            Name = "Ethan Evans",
-                            Position = "Network Engineer"
-                        },
-                        new
-                        {
-                            Id = new Guid("8bc3a24d-7337-4c55-b8c9-c9b96b9c8a8e"),
-                            Age = 28,
-                            CompanyId = new Guid("7304a687-8970-4a37-b3e7-0bf74a5b6456"),
-                            Name = "James Wilson",
-                            Position = "Data Scientist"
-                        },
-                        new
-                        {
-                            Id = new Guid("c951255a-0e8c-4f6a-9836-8dd3a8d0c3d7"),
-                            Age = 31,
-                            CompanyId = new Guid("d69a6a59-a7e8-4c8f-b802-95d2b4b58ac7"),
-                            Name = "William Taylor",
-                            Position = "Software Tester"
-                        },
-                        new
-                        {
-                            Id = new Guid("0d6a92bf-8c8c-4a6e-8b56-86e8742d2479"),
-                            Age = 29,
-                            CompanyId = new Guid("d69a6a59-a7e8-4c8f-b802-95d2b4b58ac7"),
-                            Name = "Jacob Thomas",
-                            Position = "IT Support Specialist"
-                        },
-                        new
-                        {
-                            Id = new Guid("10d5c76c-4754-41f6-9220-9326a4e1a583"),
-                            Age = 41,
-                            CompanyId = new Guid("f9a92769-354f-4d23-85b2-16f6af0b84a1"),
-                            Name = "Andrea Bocelli",
-                            Position = "UI/UX Designer"
-                        },
-                        new
-                        {
-                            Id = new Guid("8a34cfdd-8c59-4303-9a81-4fdbe7ecb26b"),
-                            Age = 29,
-                            CompanyId = new Guid("e1bce704-7cbb-4b10-beda-d97e9aef9147"),
-                            Name = "Ella Fitzgerald",
-                            Position = "Frontend Developer"
-                        },
-                        new
-                        {
-                            Id = new Guid("56fa03f4-49fb-44ba-b045-9bc13c8c5821"),
-                            Age = 33,
-                            CompanyId = new Guid("d69a6a59-a7e8-4c8f-b802-95d2b4b58ac7"),
-                            Name = "Charlie Parker",
-                            Position = "Backend Developer"
-                        },
-                        new
-                        {
-                            Id = new Guid("bc8903a5-cb9e-4b28-a5aa-3c7598289f66"),
-                            Age = 36,
-                            CompanyId = new Guid("ba56711f-692a-4ed6-9451-b3f229f9f468"),
-                            Name = "Dizzy Gillespie",
-                            Position = "Project Manager"
-                        },
-                        new
-                        {
-                            Id = new Guid("85daff91-dffa-47f1-922d-b8c994733fb3"),
-                            Age = 27,
-                            CompanyId = new Guid("f9a92769-354f-4d23-85b2-16f6af0b84a1"),
-                            Name = "Sarah Vaughan",
-                            Position = "QA Engineer"
-                        },
-                        new
-                        {
-                            Id = new Guid("061e682f-5987-41a1-97c5-0a8b6f83e673"),
-                            Age = 30,
-                            CompanyId = new Guid("e1bce704-7cbb-4b10-beda-d97e9aef9147"),
-                            Name = "Frank Sinatra",
-                            Position = "IT Consultant"
                         });
                 });
 

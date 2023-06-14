@@ -54,7 +54,7 @@ public interface ICompanyService
     /// <summary>
     /// Updates the Company entity with the specified ID using the specified CompanyForUpdateDto object.
     /// </summary>
-    /// <param name="companyid">The ID of the company to update.</param>
+    /// <param name="companyId">The ID of the company to update.</param>
     /// <param name="companyForUpdate">The CompanyForUpdateDto object that specifies the updated data for the entity.</param>
     /// <param name="trackChanges">A boolean indicating whether or not to track changes to the entity.</param>
     Task UpdateCompanyAsync(Guid companyId, CompanyForUpdateDto companyForUpdate, bool trackChanges);

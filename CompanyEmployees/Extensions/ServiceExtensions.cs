@@ -1,4 +1,5 @@
-﻿using Contracts;
+﻿using CompanyEmployees.Formatters.Output;
+using Contracts;
 using LoggerService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
